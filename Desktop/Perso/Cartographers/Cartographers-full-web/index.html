@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+
+        let carto = {
+            store: null,
+            handle: null,
+            display: null,
+            helper: null
+        }
+
+
+        carto.store = {
+            nbPlayerMulti: 2,
+            multiPlayerName: [],
+        }
+
+
+        carto.display = {
+
+            updateNbInputMulti: () => {
+                let element = $("#inputMulti");
+                element.empty();
+
+                for(let i = 0 ; i < carto.store.nbPlayerMulti ; i++) {
+                    element.append(`
+                        <div class="input-group flex-nowrap" style="margin-top: 4%">
+                          <span class="input-group-text" id="addon-wrapping">Nom</span>
+                          <input id="inputMulti${i}" type="text" class="form-control" placeholder="Nom du joueur ${i + 1}" aria-label="Nom du joueur ${i + 1}" aria-describedby="addon-wrapping">
+                        </div>
+                    `);
+                }
+            }
+
+        }
+
+
+        carto.handle = {
+
+            confirmMultiPlayerName: () => {
+                carto.store.multiPlayerName = [];
+
+                for(let i = 0 ; i < carto.store.nbPlayerMulti ; i++) {
+                    carto.store.multiPlayerName.push($("#inputMulti"+i).val());
+                }
+            }
+
+        }
+
+
+        carto.helper = {
+
+        }
+
+
+        $(document).ready(function(){
+
+            carto.display.updateNbInputMulti();
+
+            $("#multiSelect").change(function () {
+                carto.store.nbPlayerMulti = $("#multiSelect").val();
+                carto.display.updateNbInputMulti();
+            })
+
+            $("#confirmMulti").click(function (){
+                carto.handle.confirmMultiPlayerName();
+                $("#modal-multi").modal("hide");
+            })
+
+            $("#cancelMulti").click(function (){
+                $("#modal-multi").modal("hide");
+            })
+
+
+        });
+
+    </script>
+
+    <style>
+
+        .card-style {
+            padding: 0 !important;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <h1 class="col-sm-6 offset-3" style="text-align: center; margin-top: 1%"> Bienvenu sur Cartographers 🔭 </h1>
+
+        <hr class="col-sm-12">
+
+        <div class="card" style="width: 60%; margin: 5% auto auto; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+            <div class="card-header card-style">
+                <img src="image/decoration/cartographers.png" alt="C'est une image du jeu je crois" style="width: 100%; height: auto"/>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-light col-sm-8 offset-2" style="border: 1px solid grey"> Mode Solo</button>
+                    </li>
+                <li class="list-group-item">
+                    <button type="button" data-toggle="modal" data-target="#modal-multi" class="btn btn-secondary col-sm-8 offset-2" style="border: 1px solid grey"> Mode Multi</button>
+            </li>
+                <li class="list-group-item">
+                    <button type="button" class="btn btn-dark col-sm-8 offset-2" style="border: 1px solid grey"> Mode IA</button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- -------------------- modal part -------------------- -->
+
+<div class="modal fade" id="modal-multi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 15%">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4> Choisissez le nombre et le nom des joueurs </h4>
+            </div>
+            <div class="modal-body">
+                <select id="multiSelect" class="form-select col-sm-12" style="text-align: center" aria-label="Default select example">
+                    <option value="2"> 2 joueurs </option>
+                    <option value="3"> 3 joueurs </option>
+                    <option value="4"> 4 joueurs </option>
+                </select>
+
+                <div id="inputMulti">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success col-sm-6" id="confirmMulti"> Confirmer </button>
+                <button type="button" class="btn btn-danger col-sm-6" id="cancelMulti"> Annuler </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
