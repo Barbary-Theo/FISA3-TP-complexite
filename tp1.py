@@ -11,6 +11,7 @@ root.wm_title("Embedding in Tk")
 root.geometry("700x500")
 
 all_n = []
+all_nb_occurence = []
 execution_time = []
 
 fig = Figure(figsize=(2, 3), dpi=100)
@@ -21,13 +22,13 @@ canvas.draw()
 canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 
-def getData(n):
+def getDataHanoi(n):
 
     for i in range(1, n):
         all_n.append(i)
 
         start = time.time()
-        hanoi(i)
+        all_nb_occurence.append(hanoi(i))
         end = time.time()
 
         execution = end - start
@@ -38,27 +39,27 @@ def getData(n):
 def displayData():
     ax.clear()
 
-    x, y = all_n, execution_time
-    ax.plot(x, y, label="Temps d'execution pour n boucle")
+    x, y = all_n, all_nb_occurence
+    ax.plot(x, y)
 
     canvas.draw()
     canvas.flush_events()
 
 
-def ToH(n, A, B, C):
+def HanoiTour(n, A, B, C, occurence):
+
     if n == 1:
-        return
-    ToH(n - 1, A, C, B)
-    ToH(n - 1, C, B, A)
+        return occurence
+    return HanoiTour(n - 1, A, C, B, occurence + 1) + HanoiTour(n - 1, C, B, A, occurence + 1)
 
 
 def hanoi(n):
-    return ToH(n, 'A', 'B', 'C')
+    return HanoiTour(n, 'A', 'B', 'C', 0)
 
 
 def prog():
     n = int(input("Jusqu'à la valeur : "))
-    getData(n)
+    getDataHanoi(n)
     displayData()
     root.mainloop()
 
