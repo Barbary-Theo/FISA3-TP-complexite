@@ -108,5 +108,44 @@ def main_exo_2():
     root.mainloop()
 
 
+def isMultiple(nb, value):
+
+    if nb % value == 0:
+        return True
+    return False
+
+
+def reset_coched(n):
+    all_coched = []
+    for i in range(1, n + 1):
+        all_coched.append(False)
+    return all_coched
+
+
+def eratosthene_crible(n):
+
+    premier = []
+    all_number = []
+
+    for i in range(1, n):
+        all_number.append(i)
+
+    del(all_number[0])
+
+    while len(all_number) != 0:
+        premier.append(all_number[0])
+        i = all_number[0]
+
+        for number in all_number:
+            if number % i == 0:
+                del(all_number[all_number.index(number)])
+
+    return premier
+
+
+def main_exo_3():
+    print(eratosthene_crible(100))
+
+
 if __name__ == "__main__":
-    main_exo_2()
+    main_exo_3()
