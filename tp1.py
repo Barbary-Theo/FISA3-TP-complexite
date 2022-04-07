@@ -33,7 +33,7 @@ def getDataHanoi(n):
 
         execution = end - start
         execution_time.append(execution)
-        print(" --> Calculation done successfully : for n = ", i, " in ", execution)
+        print(" --> Calculation done successfully : for n = ", i, " in ", execution, " and", all_nb_occurence[i - 1], "iterations")
 
 
 def displayData(list):
@@ -45,6 +45,8 @@ def displayData(list):
     canvas.draw()
     canvas.flush_events()
 
+    root.mainloop()
+
 
 def HanoiTour(n, A, B, C, occurence):
 
@@ -55,13 +57,6 @@ def HanoiTour(n, A, B, C, occurence):
 
 def hanoi(n):
     return HanoiTour(n, 'A', 'B', 'C', 0)
-
-
-def main_exo_1():
-    n = int(input("Jusqu'à la valeur : "))
-    getDataHanoi(n)
-    displayData(all_nb_occurence)
-    root.mainloop()
 
 
 def suite_recurrente_iter(n):
@@ -83,7 +78,7 @@ def suite_recurrente_recu(n):
         return suite_recurrente_recu(n - 1) + suite_recurrente_recu(n - 2)
 
 
-def getData_suite_recu(n, f):
+def getData_suite_iter_or_recu(n, f):
 
     for i in range(1, n):
         all_n.append(i)
@@ -97,29 +92,6 @@ def getData_suite_recu(n, f):
 
         if n < 1000:
             print(" --> Calculation done successfully : for n = ", i, " in ", execution)
-
-
-def main_exo_2():
-    n = int(input("Jusqu'à la valeur : "))
-
-    #getData_suite_recu(n, suite_recurrente_recu)
-    getData_suite_recu(n, suite_recurrente_iter)
-    displayData(execution_time)
-    root.mainloop()
-
-
-def isMultiple(nb, value):
-
-    if nb % value == 0:
-        return True
-    return False
-
-
-def reset_coched(n):
-    all_coched = []
-    for i in range(1, n + 1):
-        all_coched.append(False)
-    return all_coched
 
 
 def eratosthene_crible(n):
@@ -143,8 +115,36 @@ def eratosthene_crible(n):
     return premier
 
 
+def getData_crible(n):
+
+    for i in range(2, n):
+        all_n.append(i)
+
+        start = time.time()
+        eratosthene_crible(i)
+        end = time.time()
+
+        execution = end - start
+        execution_time.append(execution)
+
+
+def main_exo_1():
+    n = int(input("Jusqu'à la valeur : "))
+    getDataHanoi(n)
+    displayData(execution_time)
+
+
+def main_exo_2():
+    n = int(input("Jusqu'à la valeur : "))
+
+    getData_suite_iter_or_recu(n, suite_recurrente_recu)
+    #getData_suite_iter_or_recu(n, suite_recurrente_iter)
+    displayData(execution_time)
+
+
 def main_exo_3():
-    print(eratosthene_crible(100))
+    getData_crible(2000)
+    displayData(execution_time)
 
 
 if __name__ == "__main__":
