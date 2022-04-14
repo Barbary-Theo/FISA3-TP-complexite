@@ -146,6 +146,5 @@ def main_exo_3():
     getData_crible(2000)
     displayData(execution_time)
 
-
 if __name__ == "__main__":
     main_exo_3()
